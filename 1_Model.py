@@ -14,6 +14,16 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, classification_report
 
+
+url1 = "https://predicting-income-level-from-census-data-1model.streamlit.app/"
+url2 = "https://predicting-income-level-from-census-app.streamlit.app/"
+
+# Create a button in the sidebar
+if st.sidebar.button("Go to Income Prediction"):
+    st.markdown(f'<meta http-equiv="refresh" content="0; url={url1}">', unsafe_allow_html=True)
+elif st.sidebar.button("Go to Data Exploration"):
+    st.markdown(f'<meta http-equiv="refresh" content="0; url={url2}">', unsafe_allow_html=True)
+
 def load_and_process_data():
     processor = DataProcessor(DATA_URL, COLUMN_NAMES, Z_SCORE_THRESHOLD)
     data = processor.data

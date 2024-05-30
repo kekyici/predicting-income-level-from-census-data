@@ -13,11 +13,16 @@ from sklearn.preprocessing import LabelEncoder
 from data_processor import DataProcessor
 from sklearn.metrics import accuracy_score, classification_report
 
-explore_button = st.sidebar.button("Go to Data Exploration")
-predict_button = st.sidebar.button("Go to Income Prediction")
-#sidebar --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-with st.sidebar:
-    st.success("Select a page above.")
+
+
+url1 = "https://predicting-income-level-from-census-data-1model.streamlit.app/"
+url2 = "https://predicting-income-level-from-census-app.streamlit.app/"
+# Create a button in the sidebar
+if st.sidebar.button("Go to Income Prediction"):
+   
+    st.markdown(f'<meta http-equiv="refresh" content="0; url={url1}">', unsafe_allow_html=True)
+if st.sidebar.button("Go to Data Exploration"):
+    st.markdown(f'<meta http-equiv="refresh" content="0; url={url2}">', unsafe_allow_html=True)
 
 # Load the dataset
 @st.cache_data
