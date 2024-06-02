@@ -59,28 +59,15 @@ with st.sidebar:
 if selected == "Home":
     st.title('Census Income Prediction')
     st.divider()
-    st.header("About :memo:")
+    st.header("Project Background :memo:")
     st.markdown('''
     ####
-    We are thrilled to introduce you to Income Predictor, 
-    your all-in-one solution for predicting income levels 
-    based on census data. Our platform provides a 
-    comprehensive tool for analyzing demographic and 
-    employment information to predict income levels with 
-    high accuracy.
-                
-    With Income Predictor, organizations and researchers 
-    can efficiently manage and analyze large datasets, 
-    track various demographic metrics, and make informed 
-    predictions about income distribution. Our platform 
-    leverages advanced machine learning algorithms to 
-    deliver precise income predictions, helping you 
-    understand socioeconomic trends and make data-driven 
-    decisions.
+    Income inequality is a significant socioeconomic challenge with profound implications for individuals and society. Understanding the factors that contribute to inequality in income is critical for developing effective policy measures and addressing socioeconomic inequalities. The availability of census data with a wide range of demographic and employment-related attributes provides an opportunity to investigate these factors and develop predictive models for income levels. The goal of this data science project is to collect the dataset, as well as cleaning and analyzing the data.
+    
+    The target organizations and users of this project are government agencies, nonprofit organizations, research institutions, and businesses. Government agencies responsible for economic policy formulation, social welfare programs, and resource allocation can benefit from insights into income disparities and predictive models to target interventions more effectively. Nonprofit organizations focused on poverty alleviation, social justice, and community development can use the predictive model to identify vulnerable populations and tailor assistance programs accordingly. Academic institutions and research organizations studying income inequality, social mobility, and labor market dynamics can utilize the predictive model to enhance their understanding of socioeconomic trends and inform their research agenda. Businesses interested in market segmentation, consumer behavior analysis, and targeted marketing can leverage the predictive model to identify potential customers with specific income levels and tailor their products and services accordingly.
+    
+    There are some potential benefits of this project. Firstly, policy design can be improved. The predictive model can inform the design and implementation of targeted policy interventions aimed at reducing income inequality and promoting economic mobility. Next, it enhanced resource allocation. Government agencies and social welfare organizations can allocate resources more efficiently by targeting interventions toward individuals at risk of low income. Furthermore, this project contributes to addressing income inequality by providing insights that support efforts to uplift marginalized communities and reduce socioeconomic disparities.
 
-    Join us on this exciting journey as we revolutionize 
-    income prediction and demographic analysis with Income 
-    Predictor!
     ''')
     
     st.markdown("#### `Get Started Now!`")
@@ -100,17 +87,17 @@ if selected == "Analysis":
         st.subheader("Data Visualization")
         selected_feature = st.selectbox("Select Feature for Visualization", data.columns)
         selected_chart = st.selectbox("Select Chart Type", ["Histogram", "Bar Chart", "Scatter Plot"])
-        filtered_data = data[data["income"] == 1] if st.checkbox("Filter High Income") else data
+        filtered_data = data[data["income"] == '">50K"'] if st.checkbox("Filter High Income") else data
+        predict_button = st.button("Show Visualization⚡")
 
-
-
-        # Data visualization
-        if selected_chart == "Histogram":
-            st.bar_chart(filtered_data[selected_feature].value_counts())
-        elif selected_chart == "Bar Chart":
-            st.bar_chart(filtered_data[selected_feature].value_counts())
-        else:
-            st.scatter_chart(filtered_data.sample(100), x="age", y="hours_per_week")
+        if predict_button:
+            # Data visualization
+            if selected_chart == "Histogram":
+                st.bar_chart(filtered_data[selected_feature].value_counts())
+            elif selected_chart == "Bar Chart":
+                st.bar_chart(filtered_data[selected_feature].value_counts())
+            else:
+                st.scatter_chart(filtered_data.sample(100), x="age", y="hours_per_week")
 
 # ========= PREDICTION TAB =======
 def transform_input(age, workclass, education, marital_status, occupation, relationship, sex, hours_per_week):
