@@ -138,7 +138,7 @@ if selected == "Predictions":
     st.title("Income Level Prediction ⚡")
     st.subheader("Provide the inputs below 👇🏻")
     st.divider()
-    st.markdown("##### _Here you will choose to use <span style='color:red'> Decision Tree, Naive Bayes, Logistic Regression 🤖</span> Machine Learning Algorithm to create our Model to predict the Income Level of Individuals_.", unsafe_allow_html=True)
+    st.markdown("##### _Here you will choose to use <span style='color:red'> Naive Bayes, Logistic Regression 🤖</span> Machine Learning Algorithm to create our Model to predict the Income Level of Individuals_.", unsafe_allow_html=True)
     st.markdown("##### _You just need to provide the individual's data to get started and predict their income level using our <span style='color:red'>well trained Model right here</span>_.", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
