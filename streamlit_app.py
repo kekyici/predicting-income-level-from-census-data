@@ -149,7 +149,7 @@ if selected == "Predictions":
         hours_per_week = st.slider('Enter the Hours Per Week 👇🏻', min_value=1, max_value=100, step=1)
         occupation = st.selectbox('Choose Occupation 💼', ['Blue_collar', 'White_collar', 'Brown_collar/Protective_service', 'Pink_collar/Service_and_sales'])
 
-        model_choice = st.selectbox("Select Model", ["Decision Tree", "Naive Bayes", "Logistic Regression"])
+        model_choice = st.selectbox("Select Model", [ "Naive Bayes", "Logistic Regression"])
         predict_button = st.button("Predict the Income Level ⚡")
 
     with col2:
@@ -192,10 +192,7 @@ if selected == "Predictions":
         # Train-test split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-
-        if model_choice == "Decision Tree":
-            clf = DecisionTreeClassifier()
-        elif model_choice == "Naive Bayes":
+        if model_choice == "Naive Bayes":
             clf = GaussianNB()
         elif model_choice == "Logistic Regression":
             clf = LogisticRegression()
@@ -225,7 +222,7 @@ if selected == "Model":
     st.header("Income Prediction")
     data1 = data.drop(['fnlwgt','capital_gain','capital_loss','native_country','race','income','workclass','education'], axis=1)
     # Sidebar for income prediction
-    model = st.selectbox("Select Model", ["Decision Tree", "SVM", "Naive Bayes", "Logistic Regression"])
+    model = st.selectbox("Select Model", ["SVM", "Naive Bayes", "Logistic Regression"])
     selected_features = st.multiselect("Select Features for Prediction", data1.columns)
     test_size = st.slider("Test Size", 0.1, 0.5, 0.2)
 
@@ -237,9 +234,8 @@ if selected == "Model":
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
 
-        if model == "Decision Tree":
-            clf = DecisionTreeClassifier()
-        elif model == "SVM":
+        
+        if model == "SVM":
             clf = SVC()
         elif model == "Naive Bayes":
             clf = GaussianNB()
