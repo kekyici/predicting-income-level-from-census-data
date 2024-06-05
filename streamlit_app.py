@@ -100,12 +100,9 @@ if selected == "Analysis":
                 st.scatter_chart(filtered_data.sample(100), x="age", y="hours_per_week")
 
 # ========= PREDICTION TAB =======
-def transform_input(age, workclass, education, marital_status, occupation, relationship, sex, hours_per_week):
+def transform_input(age,  education, marital_status, occupation, relationship, sex, hours_per_week):
     # Define transformation mappings
-    workclass_mapping = {
-        'Private': 0, 'Self-emp-not-inc': 1, 'Self-emp-inc': 2, 'Federal-gov': 3, 'Local-gov': 4,
-        'State-gov': 5, 'Without-pay': 6, 'Never-worked': 7
-    }
+
     education_mapping = {
         'Bachelors': 0, 'Some-college': 1, '11th': 2, 'HS-grad': 3, 'Prof-school': 4, 'Assoc-acdm': 5,
         'Assoc-voc': 6, '9th': 7, '7th-8th': 8, '12th': 9, 'Masters': 10, '1st-4th': 11, '10th': 12,
@@ -128,20 +125,20 @@ def transform_input(age, workclass, education, marital_status, occupation, relat
 
 
     # Apply transformations
-    workclass_encoded = workclass_mapping.get(workclass, -1)
+
     education_encoded = education_mapping.get(education, -1)
     marital_status_encoded = marital_status_mapping.get(marital_status, -1)
     occupation_encoded = occupation_mapping.get(occupation, -1)
     relationship_encoded = relationship_mapping.get(relationship, -1)
     sex_encoded = sex_mapping.get(sex, -1)
-    return [age, workclass_encoded, education_encoded, marital_status_encoded, occupation_encoded, relationship_encoded, sex_encoded,hours_per_week]
+    return [age, education_encoded, marital_status_encoded, occupation_encoded, relationship_encoded, sex_encoded,hours_per_week]
 
 if selected == "Predictions":
     
     st.title("Income Level Prediction ⚡")
     st.subheader("Provide the inputs below 👇🏻")
     st.divider()
-    st.markdown("##### _Here you will choose to use <span style='color:red'>Random Forest, Decision Tree, Naive Bayes, Logistic Regression 🤖</span> Machine Learning Algorithm to create our Model to predict the Income Level of Individuals_.", unsafe_allow_html=True)
+    st.markdown("##### _Here you will choose to use <span style='color:red'> Decision Tree, Naive Bayes, Logistic Regression 🤖</span> Machine Learning Algorithm to create our Model to predict the Income Level of Individuals_.", unsafe_allow_html=True)
     st.markdown("##### _You just need to provide the individual's data to get started and predict their income level using our <span style='color:red'>well trained Model right here</span>_.", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -152,13 +149,11 @@ if selected == "Predictions":
         hours_per_week = st.slider('Enter the Hours Per Week 👇🏻', min_value=1, max_value=100, step=1)
         occupation = st.selectbox('Choose Occupation 💼', ['Blue_collar', 'White_collar', 'Brown_collar/Protective_service', 'Pink_collar/Service_and_sales'])
 
-        model_choice = st.selectbox("Select Model", ["Random Forest", "Decision Tree", "Naive Bayes", "Logistic Regression"])
+        model_choice = st.selectbox("Select Model", ["Decision Tree", "Naive Bayes", "Logistic Regression"])
         predict_button = st.button("Predict the Income Level ⚡")
 
     with col2:
-        # Get user input for Workclass
-        workclass = st.selectbox('Choose Workclass 🏢', ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])
-        # Get user input for Education
+         # Get user input for Education
         education = st.selectbox('Choose Education Level 🎓', ['Bachelors', 'Some-college', '11th', 'HS-grad', 'Prof-school', 'Assoc-acdm', 'Assoc-voc', '9th', '7th-8th', '12th', 'Masters', '1st-4th', '10th', 'Doctorate', '5th-6th', 'Preschool'])
         # Get user input for Marital Status
         marital_status = st.selectbox('Choose Marital Status 💍', ['Single', 'Married'])
@@ -173,10 +168,10 @@ if selected == "Predictions":
         st.balloons()
         
         # Transform the input features
-        user_data = transform_input(age, workclass, education, marital_status, occupation, relationship, sex, hours_per_week)
+        user_data = transform_input(age, education, marital_status, occupation, relationship, sex, hours_per_week)
      # Prepare the user input as a dataframe
         user_df = pd.DataFrame([user_data], columns=[
-            'age', 'workclass', 'education', 'marital_status',
+            'age','education', 'marital_status',
             'occupation', 'relationship', 'sex',  'hours_per_week'
         ])
         
@@ -184,7 +179,7 @@ if selected == "Predictions":
         st.markdown("* ## Input Dataframe ⬇️")
         st.write(user_df)
        
-        X = data.drop(['education_num','fnlwgt','capital_gain','capital_loss','native_country','race','income'], axis=1)
+        X = data.drop(['workclass','education','fnlwgt','capital_gain','capital_loss','native_country','race','income'], axis=1)
         y = data["income"]
 
         # Label Encoding
@@ -197,9 +192,8 @@ if selected == "Predictions":
         # Train-test split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        if model_choice == "Random Forest":
-            clf = RandomForestClassifier()
-        elif model_choice == "Decision Tree":
+
+        if model_choice == "Decision Tree":
             clf = DecisionTreeClassifier()
         elif model_choice == "Naive Bayes":
             clf = GaussianNB()
@@ -229,22 +223,21 @@ if selected == "Model":
 
     st.title("Census Income Prediction Web App")
     st.header("Income Prediction")
-
+    data1 = data.drop(['fnlwgt','capital_gain','capital_loss','native_country','race','income','workclass','education'], axis=1)
     # Sidebar for income prediction
-    model = st.selectbox("Select Model", ["Random Forest", "Decision Tree", "SVM", "Naive Bayes", "Logistic Regression"])
-    selected_features = st.multiselect("Select Features for Prediction", data.columns[:-1])
+    model = st.selectbox("Select Model", ["Decision Tree", "SVM", "Naive Bayes", "Logistic Regression"])
+    selected_features = st.multiselect("Select Features for Prediction", data1.columns)
     test_size = st.slider("Test Size", 0.1, 0.5, 0.2)
 
     # Income prediction
     if selected_features and st.button("Train and Predict"):
         # Data preprocessing
-        X = data[selected_features]
+        X = data.drop(['fnlwgt','capital_gain','capital_loss','native_country','race','income','workclass','education'], axis=1)
         y = data["income"]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
-        if model == "Random Forest":
-            clf = RandomForestClassifier()
-        elif model == "Decision Tree":
+
+        if model == "Decision Tree":
             clf = DecisionTreeClassifier()
         elif model == "SVM":
             clf = SVC()
